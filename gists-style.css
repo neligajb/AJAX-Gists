@@ -18,7 +18,7 @@ input[type=checkbox] {
   margin: 2em;
 }
 
-#search-box input[type=text] {
+#search-box input[type=number] {
   height: 1.4em;
   font-size: 1.2em;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -42,17 +42,44 @@ input[type=button] {
   width: 90%; 
 }
 
+#gist-lists > h4 {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 2em;
+  float:left;
+  width: 46.5%;
+  margin-left: .5em;
+}
+
 #gist-lists > div {
   float:left;
   width: 45%;
   margin: 1em;
-}
-
-#gist-lists > div > h4 {
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
-  font-size: 2em;
-}
-
-#gist-lists > div > ul {
+  margin-top: 0em;
+  border: 1px solid gray;
+  position: relative;
   background-color: LightSteelBlue; 
+}
+
+
+#gist-lists > div > div {
+  width: 90%;
+  border-bottom: 1px dotted gray;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: .5em;
+}
+
+#gist-div > button {
+  padding-left: .5em;
+}
+
+#gist-div > p {
+  display: inline-block;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  margin-left: .5em;
+}
+
+#gist-div > a {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  margin-left: 2.3em;
 }
