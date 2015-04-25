@@ -3,9 +3,35 @@
 <head>
 	<meta charset="UTF-8">
   <title>Gists List</title>
+  <LINK href="gists-style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <script src="gistsJS.js"</script>
-  
+  <script src="gistsJS.js"></script>
+  <section>
+  	<div id="lang-options">
+      <input type="checkbox" name="javascript">
+      <label>JavaScipt</label>
+      <input type="checkbox" name="sql">
+      <label>SQL</label>
+      <input type="checkbox" name="json">
+      <label>JSON</label>
+      <input type="checkbox" name="python">
+      <label>Python</label>
+    </div>  
+    <div id="search-box">
+      <input type="text" name="num-of-pages">
+      <input type="button" value="FETCH GISTS" onlick="fetchGists()">
+    </div>
+  </section>
+  <section id="gist-lists">
+    <div id-"gists">
+      <h4>GISTS</h4>
+      <ul></ul>
+    </div>
+    <div id="fav-gists">
+      <h4>Favorite Gists</h4>
+      <ul></ul>
+    </div>
+  </section>
 </body>
 </html>

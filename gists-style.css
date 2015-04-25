@@ -1,0 +1,58 @@
+input[type=checkbox] {
+	margin-right: .25em;
+}
+
+#lang-options {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  margin: 2em;
+  padding-top:.25em;
+  float: left;
+}
+
+#lang-options label {
+  margin-right: 2em;
+}
+
+#search-box {
+  float:right;
+  margin: 2em;
+}
+
+#search-box input[type=text] {
+  height: 1.4em;
+  font-size: 1.2em;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+input[type=button] {
+  color: white;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 1em;
+  width: 8em;
+  height: 2.2em;
+  background-color: DarkCyan;
+  font-weight: bold;
+  margin-left: .25em;
+}
+
+#gist-lists {
+  clear: both;
+  margin-left: auto;
+  margin-right:auto;
+  width: 90%; 
+}
+
+#gist-lists > div {
+  float:left;
+  width: 45%;
+  margin: 1em;
+}
+
+#gist-lists > div > h4 {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 2em;
+}
+
+#gist-lists > div > ul {
+  background-color: LightSteelBlue; 
+}
