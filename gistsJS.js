@@ -2,8 +2,8 @@ var originalGistList = [];
 var favorites = null;
 
 function findByID(gistID) {
-	var len = originalGistList.length;
-	for (var i = 0; i < len; i++) {
+	len = originalGistList.length;
+	for (i = 0; i < len; i++) {
 		if (originalGistList[i].id === gistID) {
 			return originalGistList[i];
 		}
@@ -73,79 +73,85 @@ function removeFavoriteGist(gistID) {
 	localStorage.setItem('userFavorites', JSON.stringify(favorites));
 }
 
-function clearDivs() {
-	var thisParent = document.getElementById('gists');
-	var childDivs = thisParent.getElementsByTagName('div');
-	for (i = 0; i < childDivs.length; i++) {
-		thisParent.removeChild(childDivs[i]);
-	}
+function clearGistDivs() {
+  var gistDivs = document.getElementById('gists');
+  while (gistDivs.firstChild) {
+    gistDivs.removeChild(gistDivs.firstChild);
+  }
+}
+
+function removeFavs() {
+  var favLen = favorites.length;
+  var len = originalGistList.length;
+  for (var i = 0; i < favLen; i++) {
+    for (var j = 0; j < len; j++ ) {
+      if (favorites[i].id === originalGistList[j].id) {
+        originalGistList.splice(j, 1);
+        return;
+      }
+    }
+  }
 }
 
 function fetchGists() {
-	//clearDivs();
-	var req = new XMLHttpRequest();
-	if (!req) {
-		throw 'Unable to get request.';
-	}
-	
-	req.onreadystatechange = function() {
-		if(this.readyState === 4) {
-			originalGistList = JSON.parse(this.responseText);
-	};
-	req.open('GET', 'https://api.github.com/gists/public?page=1&per_page=100');
-	req.send();
+  clearGistDivs();
+  function firstRequest() {
+  	var req = new XMLHttpRequest;
+  	if (!req) {
+  		throw 'Unable to get request.';
+  	}
+  	var pages = document.getElementsByName('num-of-pages')[0].value;
+  	pages = Math.floor(pages);
+  	if (pages < 0 || (typeof pages != 'number')) {
+  		pages = 1;
+  	}
+  	else if (pages > 5) {
+  		pages = 5;
+  	}
+    var display = pages * 30;
 
-	var pages = document.getElementsByName('num-of-pages')[0].value;
-	pages = Math.floor(pages);
-	if (pages < 0 || (typeof pages != 'number')) {
-		pages = 1;
-	}
-	else if (pages > 5) {
-		pages = 5;
-	}
+  	var url = 'https://api.github.com/gists/public?page=1&per_page=' + display;
+  	req.onreadystatechange = function() {
+  		if(this.readyState === 4) {
+  			originalGistList = JSON.parse(this.responseText);
+        var len = originalGistList.length;
+        var favLen = favorites.length;
+        for (var i = 0; i < len; i++) {
+          for (var j = 0; j < favLen; j++ ) {
+            if (originalGistList[i].id === favorites[j].id) {
+              console.log('match');
+            }
+            else {
+              gistHTML(document.getElementById('gists'), originalGistList[i], '+');
+            }
+          }
+        }
+      }
+  	};
+  	req.open('GET', url);
+  	req.send();
+  }
 
-	secondRequest();
+  // function secondRequest() {
+  //   var req = new XMLHttpRequest;
+  //   if (!req) {
+  //     throw 'Unable to get request.';
+  //   }
+  //   var url = 'https://api.github.com/gists/public?page=2&per_page=100';
+  //   req.onreadystatechange = function() {
+  //     if(this.readyState === 4) {
+  //       secondGistList = JSON.parse(this.responseText);
+  //       for (var i = 0; i < 50; i++) {
+  //         gistHTML(document.getElementById('gists'), originalGistList[i], '+');
+  //       }
+  //     }
+  //   };
+  //   req.open('GET', url);
+  //   req.send();
+  // }
 
-	var display;
-	if (pages === 1) {
-		display = 30;
-	}
-	else if (pages === 2) {
-		display = 60;
-	}
-	else if (pages === 3) {
-		display = 90;
-	}
-	else if (pages === 4) {
-		display = 120;
-	}
-	else if (pages === 5) {
-		display = 150;
-	}
-
-	for (var i = 0; i < display; i++) {
-		gistHTML(document.getElementById('gists'), originalGistList[i], '+');
-	}
-}
-
-function secondRequest() {
-	var secondGistList = [];
-	var reqTwo = new XMLHttpRequest();
-	if (!reqTwo) {
-		throw 'Unable to get request.';
-	}
-
-	reqTwo.onreadystatechange = function() {
-		if(this.readyState === 4) {
-			secondGistList = JSON.parse(this.responseText);
-		}
-	};
-	reqTwo.open('GET', 'https://api.github.com/gists/public?page=2&per_page=100');
-	reqTwo.send();
-
-	for (i = 0; i < 50; i++) {
-		originalGistList.push(secondGistList[i]);
-	}
+  firstRequest();
+  //secondRequest();
 }
 
 
