@@ -101,13 +101,11 @@ function fetchGists() {
   		throw 'Unable to get request.';
   	}
   	var pages = document.getElementsByName('num-of-pages')[0].value;
-  	pages = Math.floor(pages);
-  	if (pages < 0 || (typeof pages != 'number')) {
-  		pages = 1;
+  	if (pages < 1 || pages > 5) {
+      alert("Enter number of pages to display: 1 - 5")
+      return;
   	}
-  	else if (pages > 5) {
-  		pages = 5;
-  	}
+
     var display = pages * 30;
 
   	var url = 'https://api.github.com/gists/public?page=1&per_page=' + display;
