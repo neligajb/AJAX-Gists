@@ -1,4 +1,16 @@
-Start:
+Start: ~
+End: Sun, 26 Apr 2015 13:03:21 -0400 
+Tasks: all working except for errors on language filtering, and can only retrieve up to 100 results (limited page one AJAX request, as more than 1 causes errors)
+
+Start: ~
+End: Sun, 26 Apr 2015 11:18:08 -0400 
+Tasks: begin filter testing
+
+Start: Sun, 26 Apr 2015 09:00:00 -0400
+End: Sun, 26 Apr 2015 10:10:59 -0400 
+Tasks: build list working. no obvious bugs
+
+Start: ~
 End: Sun, 26 Apr 2015 02:32:35 -0400
 Tasks: added type checking for search input
 
