@@ -80,21 +80,23 @@ function clearGistDivs() {
   }
 }
 
-// function removeFavs() {
-//   var favLen = favorites.length;
-//   var len = originalGistList.length;
-//   for (var i = 0; i < favLen; i++) {
-//     for (var j = 0; j < len; j++ ) {
-//       if (favorites[i].id === originalGistList[j].id) {
-//         originalGistList.splice(j, 1);
-//         return;
-//       }
-//     }
-//   }
-// }
 
 function fetchGists() {
   originalGistList.length = 0;
+
+  var languages = [];
+  if (document.getElementsByName('javascript')[0].checked) {
+    languages.push('.js');
+  }
+  if (document.getElementsByName('sql')[0].checked) {
+    languages.push('.sql');
+  }
+  if (document.getElementsByName('json')[0].checked) {
+    languages.push('.json');
+  }
+  if (document.getElementsByName('python')[0].checked) {
+    languages.push('.py');
+  }
 
   var pages = document.getElementsByName('num-of-pages')[0].value;
   if (pages < 1 || pages > 5) {
@@ -104,7 +106,7 @@ function fetchGists() {
 
   clearGistDivs();
 
-  function firstRequest() {
+  //function firstRequest() {
   	var req = new XMLHttpRequest();
   	if (!req) {
   		throw 'Unable to get request.';
@@ -121,21 +123,36 @@ function fetchGists() {
         var favLen = favorites.length;
         for (var i = 0; i < len; i++) {
           var match = false
+          var selLang = false;
           for (var j = 0; j < favLen; j++ ) {
             if (favorites[j].id === originalGistList[i].id) {
               console.log('match');
               match = true;
             }
           }
-          if (!match) {
-            gistHTML(document.getElementById('gists'), originalGistList[i], '+');
+          if (languages.length === 0) {
+            selLang = true;
           }
+          else {
+            for (var i = 0; i < len; i++) {
+              for (var property in originalGistList[i].files) {
+                for (var j = 0; j < languages.length; j++) {
+                  if (property.includes(languages[j])) {
+                    selLang = true;
+                  }
+                }
+              }
+            }
+          }
+          if (selLang && !match) {
+            gistHTML(document.getElementById('gists'), originalGistList[i], '+');
+          } 
         }
       }
   	};
   	req.open('GET', url);
   	req.send();
-  }
+  //}
 
   // function secondRequest() {
   //   var req = new XMLHttpRequest();
@@ -155,7 +172,7 @@ function fetchGists() {
   //   req.send();
   // }
 
-  firstRequest();
+  //firstRequest();
   //secondRequest();
 }
 
