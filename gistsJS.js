@@ -1,16 +1,32 @@
 var originalGistList = [];
+var favorites = null;
 
-function gistHTML(parent_div, gist) {
+function findByID(gistID) {
+	len = originalGistList.length;
+	for (i = 0; i < len; i++) {
+		if (originalGistList[i].id === gistID) {
+			return originalGistList[i];
+		}
+	}
+	throw 'Gist not found.';
+}
+
+function gistHTML(parent_div, gist, icon) {
 	var gistDiv = document.createElement('div');
 	gistDiv.setAttribute('id', 'gist-div');
 
 	var fbutton = document.createElement('button');
-	fbutton.innerHTML = '+';
-	fbutton.setAttribute("gistID", gist.id);
+	fbutton.innerHTML = icon;
+	fbutton.setAttribute('id', gist.id);
 	fbutton.onclick = function() {
-		var gistID = this.getAttribute("gistID");
-		var toBeFavoredGist = findByID(gistID);
-		addFavoriteGist(toBeFavoredGist);
+		var gistID = this.getAttribute('id');
+		if (icon === '+') {
+			var selectedGist = findByID(gistID);
+			addFavoriteGist(selectedGist);
+		}
+		else if (icon === '-') {
+			removeFavoriteGist(gistID);
+		}
 	}
 
 	var desc = document.createElement('p');
@@ -24,6 +40,10 @@ function gistHTML(parent_div, gist) {
 
 	desc.innerText = gist.description;
 
+	if (desc.innerText === '' || desc.innerText === null) {
+		desc.innerText = 'No description.'
+	}
+
 	gistDiv.appendChild(fbutton);
 	gistDiv.appendChild(desc);
 	gistDiv.appendChild(br);
@@ -33,7 +53,24 @@ function gistHTML(parent_div, gist) {
 }
 
 function addFavoriteGist(favGist) {
+	favorites.push(favGist);
+	localStorage.setItem('userFavorites', JSON.stringify(favorites));
+	gistHTML(document.getElementById('fav-gists'), favGist, '-');
+}
 
+function removeFavoriteGist(gistID) {
+	for (var i = 0; i < favorites.length; i++) {
+		if (favorites[i].id === gistID) {
+			favorites.splice(i, 1);
+		}
+	}
+	var thisParent = document.getElementById('fav-gists')
+	var idStr = gistID;
+	var child = document.getElementById(idStr).parentNode;
+	thisParent.removeChild(child);
+
+	localStorage.removeItem('userFavorites');
+	localStorage.setItem('userFavorites', JSON.stringify(favorites));
 }
 
 function fetchGists() {
@@ -55,7 +92,7 @@ function fetchGists() {
 			originalGistList = JSON.parse(this.responseText);
 			var len = originalGistList.length;
 			for (var i = 0; i < len; i++) {
-				gistHTML(document.getElementById('gists'), originalGistList[i]);
+				gistHTML(document.getElementById('gists'), originalGistList[i], '+');
 			}
 		}
 	};
@@ -63,3 +100,17 @@ function fetchGists() {
 	req.send();
 }
 
+window.onload = function() {
+	var favsStr = localStorage.getItem('userFavorites');
+	if(favsStr === null) {
+		favorites = [];
+		localStorage.setItem('userFavorites', JSON.stringify(favorites));
+	}
+	else {
+		favorites = JSON.parse(favsStr);
+		len = favorites.length;
+		for (i = 0; i < len; i++) {
+			gistHTML(document.getElementById('fav-gists'), favorites[i], '-');
+		}
+	}
+}

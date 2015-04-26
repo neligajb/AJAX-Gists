@@ -67,6 +67,7 @@ input[type=button] {
   margin-left: auto;
   margin-right: auto;
   padding-bottom: .5em;
+  padding-top: .5em;
 }
 
 #gist-div > button {
@@ -74,9 +75,10 @@ input[type=button] {
 }
 
 #gist-div > p {
-  display: inline-block;
+  display: inline-block;  
   font-family: "Trebuchet MS", Helvetica, sans-serif;
-  margin-left: .5em;
+  margin-left: 1em;
+  position: relative;
 }
 
 #gist-div > a {
