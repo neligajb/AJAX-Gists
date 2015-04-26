@@ -1,0 +1,41 @@
+Start:
+End: Sun, 26 Apr 2015 02:32:35 -0400
+Tasks: added type checking for search input
+
+Start: ~
+End: Sun, 26 Apr 2015 02:05:58 -0400
+Tasks: Seem to have fixed bugs from previous master. Will continue on this branch with a merge planned for nearStart:
+
+Start: ~
+End: Sun, 26 Apr 2015 00:47:55 -0400
+Tasks: branching buggy version -- source of new bugs unknown -- maybe syntax
+
+Start: Sat, 25 Apr 2015 20:30:00 -0400
+End: Sat, 25 Apr 2015 22:50:19 -0400
+Tasks: 90% of favorites implementation complete
+
+Start: ~
+End: Sat, 25 Apr 2015 19:33:03 -0400
+Tasks: styled gist list and completed JSON parsing for the gist objects
+
+Start: ~
+End: Sat, 25 Apr 2015 17:20:30 -0400
+Tasks: built basic page and first implementation of AJAX request
+
+Start: Sat, 25 Apr 2015 13:30:00 -0400
+End: Sat, 25 Apr 2015 15:02:00 -0400
+Tasks: initial commit
+
+Start: Wed, 22 Apr 2015 03:05:14 -0400 
+End: Wed, 22 Apr 2015 03:26:14 -0400 
+Tasks: corrected objects.js after reading msg board re: requirements
+
+Start: 
+End: Wed, 22 Apr 2015 02:45:23 -0400 
+Tasks: Finished variables.js — this took about 15 minutes.  Spent another 15 minutes running GJSlint on my files and correcting various syntax issues.  Final 5 minutes spent uploading the data to GitHub. 
+
+Start: Tue, 21 Apr 2015 19:00:00 -0400
+End: Wed, 22 Apr 2015 02:31:41 -0400 
+Tasks: Installed Python and GJSlint on the command line, which took about 1 hour to troubleshoot and install correctly. Set up my Git repository and cloned Assignment 3 into my personal repo — this took about 30 mins to troubleshoot.  Took a 1 hour break, then dove into the assignment and finished functions.js and objects.js. Total time once assignment work began was approximately 4.5 hours.  This time was spent roughly 25% coding and 75% research and debugging a wide variety of general topics.  The objects.js assignment required more time, but was not notably more strenuous than variables.js. 
+
+
