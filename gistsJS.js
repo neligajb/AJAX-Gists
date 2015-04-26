@@ -80,20 +80,21 @@ function clearGistDivs() {
   }
 }
 
-function removeFavs() {
-  var favLen = favorites.length;
-  var len = originalGistList.length;
-  for (var i = 0; i < favLen; i++) {
-    for (var j = 0; j < len; j++ ) {
-      if (favorites[i].id === originalGistList[j].id) {
-        originalGistList.splice(j, 1);
-        return;
-      }
-    }
-  }
-}
+// function removeFavs() {
+//   var favLen = favorites.length;
+//   var len = originalGistList.length;
+//   for (var i = 0; i < favLen; i++) {
+//     for (var j = 0; j < len; j++ ) {
+//       if (favorites[i].id === originalGistList[j].id) {
+//         originalGistList.splice(j, 1);
+//         return;
+//       }
+//     }
+//   }
+// }
 
 function fetchGists() {
+  originalGistList.length = 0;
 
   var pages = document.getElementsByName('num-of-pages')[0].value;
   if (pages < 1 || pages > 5) {
@@ -115,18 +116,18 @@ function fetchGists() {
   	req.onreadystatechange = function() {
   		if(this.readyState === 4) {
   			originalGistList = JSON.parse(this.responseText);
+        
         var len = originalGistList.length;
         var favLen = favorites.length;
         for (var i = 0; i < len; i++) {
+          var match = false
           for (var j = 0; j < favLen; j++ ) {
-            if (originalGistList[i].id === favorites[j].id) {
+            if (favorites[j].id === originalGistList[i].id) {
               console.log('match');
-            }
-            else {
-              gistHTML(document.getElementById('gists'), originalGistList[i], '+');
+              match = true;
             }
           }
-          if (favLen === 0) {
+          if (!match) {
             gistHTML(document.getElementById('gists'), originalGistList[i], '+');
           }
         }
