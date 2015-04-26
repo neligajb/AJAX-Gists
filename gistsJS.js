@@ -94,16 +94,19 @@ function removeFavs() {
 }
 
 function fetchGists() {
+
+  var pages = document.getElementsByName('num-of-pages')[0].value;
+  if (pages < 1 || pages > 5) {
+    alert("Enter number of pages to display: 1 - 5")
+    return;
+  }
+
   clearGistDivs();
+
   function firstRequest() {
-  	var req = new XMLHttpRequest;
+  	var req = new XMLHttpRequest();
   	if (!req) {
   		throw 'Unable to get request.';
-  	}
-  	var pages = document.getElementsByName('num-of-pages')[0].value;
-  	if (pages < 1 || pages > 5) {
-      alert("Enter number of pages to display: 1 - 5")
-      return;
   	}
 
     var display = pages * 30;
@@ -123,6 +126,9 @@ function fetchGists() {
               gistHTML(document.getElementById('gists'), originalGistList[i], '+');
             }
           }
+          if (favLen === 0) {
+            gistHTML(document.getElementById('gists'), originalGistList[i], '+');
+          }
         }
       }
   	};
@@ -131,7 +137,7 @@ function fetchGists() {
   }
 
   // function secondRequest() {
-  //   var req = new XMLHttpRequest;
+  //   var req = new XMLHttpRequest();
   //   if (!req) {
   //     throw 'Unable to get request.';
   //   }
