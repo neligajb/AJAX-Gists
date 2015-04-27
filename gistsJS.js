@@ -13,7 +13,7 @@ function findByID(gistID) {
 
 function gistHTML(parent_div, gist, icon) {
 	var gistDiv = document.createElement('div');
-	gistDiv.setAttribute('id', 'gist-div');
+	gistDiv.setAttribute('class', 'gist-div');
 
 	var fbutton = document.createElement('button');
 	fbutton.innerHTML = icon;
@@ -53,6 +53,11 @@ function gistHTML(parent_div, gist, icon) {
 }
 
 function addFavoriteGist(favGist) {
+  var thisParent = document.getElementById('gists')
+  var idStr = favGist.id;
+  var child = document.getElementById(idStr).parentNode;
+  thisParent.removeChild(child);
+
 	favorites.push(favGist);
 	localStorage.setItem('userFavorites', JSON.stringify(favorites));
 	gistHTML(document.getElementById('fav-gists'), favGist, '-');
@@ -121,9 +126,9 @@ function fetchGists() {
         
         var len = originalGistList.length;
         var favLen = favorites.length;
+
         for (var i = 0; i < len; i++) {
           var match = false
-          var selLang = false;
           for (var j = 0; j < favLen; j++ ) {
             if (favorites[j].id === originalGistList[i].id) {
               console.log('match');
@@ -131,21 +136,22 @@ function fetchGists() {
             }
           }
           if (languages.length === 0) {
-            selLang = true;
+            if(!match) {
+              gistHTML(document.getElementById('gists'), originalGistList[i], '+');
+            }
           }
           else {
             for (var i = 0; i < len; i++) {
               for (var property in originalGistList[i].files) {
                 for (var j = 0; j < languages.length; j++) {
                   if (property.includes(languages[j])) {
-                    selLang = true;
+                    if(!match) {
+                      gistHTML(document.getElementById('gists'), originalGistList[i], '+');
+                    }
                   }
                 }
               }
             }
-          }
-          if (selLang && !match) {
-            gistHTML(document.getElementById('gists'), originalGistList[i], '+');
           } 
         }
       }

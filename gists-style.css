@@ -70,18 +70,18 @@ input[type=button] {
   padding-top: .5em;
 }
 
-#gist-div > button {
+.gist-div > button {
   padding-left: .5em;
 }
 
-#gist-div > p {
+.gist-div > p {
   display: inline-block;  
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   margin-left: 1em;
   position: relative;
 }
 
-#gist-div > a {
+.gist-div > a {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   margin-left: 2.3em;
 }
