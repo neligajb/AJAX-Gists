@@ -1,4 +1,5 @@
 var originalGistList = [];
+var secondGistList = [];
 var favorites = null;
 
 function findByID(gistID) {
@@ -89,7 +90,59 @@ function clearGistDivs() {
 
 function fetchGists() {
   originalGistList.length = 0;
+  secondGistList.length = 0;
 
+
+  var pages = document.getElementsByName('num-of-pages')[0].value;
+  if (pages < 1 || pages > 5) {
+    alert('Enter number of pages to display: 1 - 5');
+    return;
+  }
+
+  clearGistDivs();
+
+  function firstRequest() {
+    var req = new XMLHttpRequest();
+    if (!req) {
+      throw 'Unable to get request.';
+    }
+
+    var display = pages * 30;
+    var firstRequestDone = false;
+
+    var url = 'https://api.github.com/gists/public?page=1&per_page=' + display;
+    req.onreadystatechange = function() {
+      if (this.readyState === 4) {
+        originalGistList = JSON.parse(this.responseText);
+
+      }
+    };
+    req.open('GET', url);
+    req.send();
+  }
+
+  function secondRequest() {
+    var req2 = new XMLHttpRequest();
+    if (!req2) {
+      throw 'Unable to get request.';
+    }
+    var url = 'https://api.github.com/gists/public?page=2&per_page=100';
+    req2.onreadystatechange = function() {
+      if (this.readyState === 4) {
+        secondGistList = JSON.parse(this.responseText);
+
+        processReturnData();
+      }
+    };
+    req2.open('GET', url);
+    req2.send();
+  }
+
+  firstRequest();
+  secondRequest();
+}
+
+function getLanguages() {
   var languages = [];
   if (document.getElementsByName('javascript')[0].checked) {
     languages.push('.js');
@@ -104,84 +157,49 @@ function fetchGists() {
     languages.push('.py');
   }
 
-  var pages = document.getElementsByName('num-of-pages')[0].value;
-  if (pages < 1 || pages > 5) {
-    alert('Enter number of pages to display: 1 - 5');
-    return;
+  return languages;
+}
+
+function processReturnData() {
+  var secondLen  = secondGistList.length;
+  for (var i = 0; i < secondLen; i++) {
+    originalGistList.push(secondGistList[i]);
   }
 
-  clearGistDivs();
+  var languages = getLanguages();
 
-  //function firstRequest() {
-    var req = new XMLHttpRequest();
-    if (!req) {
-      throw 'Unable to get request.';
+  var len = originalGistList.length;
+  var favLen = favorites.length;
+
+  for (var i = 0; i < len; i++) {
+    var match = false;
+    for (var j = 0; j < favLen; j++) {
+      if (favorites[j].id === originalGistList[i].id) {
+        console.log('match');
+        match = true;
+      }
     }
-
-    var display = pages * 30;
-
-    var url = 'https://api.github.com/gists/public?page=1&per_page=' + display;
-    req.onreadystatechange = function() {
-      if (this.readyState === 4) {
-        originalGistList = JSON.parse(this.responseText);
-
-        var len = originalGistList.length;
-        var favLen = favorites.length;
-
-        for (var i = 0; i < len; i++) {
-          var match = false;
-          for (var j = 0; j < favLen; j++) {
-            if (favorites[j].id === originalGistList[i].id) {
-              console.log('match');
-              match = true;
-            }
-          }
-          if (languages.length === 0) {
-            if (!match) {
-              gistHTML(document.getElementById('gists'), originalGistList[i], '+');
-            }
-          }
-          else {
-            for (var i = 0; i < len; i++) {
-              for (var property in originalGistList[i].files) {
-                for (var j = 0; j < languages.length; j++) {
-                  if (property.includes(languages[j])) {
-                    if (!match) {
-                      gistHTML(document.getElementById('gists'), originalGistList[i], '+');
-                    }
-                  }
-                }
+    if (languages.length === 0) {
+      if (!match) {
+        gistHTML(document.getElementById('gists'), originalGistList[i], '+');
+      }
+    }
+    else {
+      for (var i = 0; i < len; i++) {
+        for (var property in originalGistList[i].files) {
+          for (var j = 0; j < languages.length; j++) {
+            if (property.includes(languages[j])) {
+              if (!match) {
+                gistHTML(document.getElementById('gists'), originalGistList[i], '+');
               }
             }
           }
         }
       }
-    };
-    req.open('GET', url);
-    req.send();
-  //}
-
-  // function secondRequest() {
-  //   var req = new XMLHttpRequest();
-  //   if (!req) {
-  //     throw 'Unable to get request.';
-  //   }
-  //   var url = 'https://api.github.com/gists/public?page=2&per_page=100';
-  //   req.onreadystatechange = function() {
-  //     if(this.readyState === 4) {
-  //       secondGistList = JSON.parse(this.responseText);
-  //       for (var i = 0; i < 50; i++) {
-  //         gistHTML(document.getElementById('gists'), originalGistList[i], '+');
-  //       }
-  //     }
-  //   };
-  //   req.open('GET', url);
-  //   req.send();
-  // }
-
-  //firstRequest();
-  //secondRequest();
+    }
+  }
 }
+
 
 
 window.onload = function() {
