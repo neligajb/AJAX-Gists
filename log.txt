@@ -1,4 +1,20 @@
 Start: ~
+End: Sun, 26 Apr 2015 22:52:54 -0400 
+Tasks: converted tabs to spaces
+
+Start: ~
+End: Sun, 26 Apr 2015 22:51:46 -0400 
+Tasks: linted JS file
+
+Start: ~
+End: Sun, 26 Apr 2015 22:20:52 -0400 
+Tasks: finished styling Gist divs and fav buttons
+
+Start: Sun, 26 Apr 2015 21:30:00 -0400
+End: Sun, 26 Apr 2015 21:46:12 -0400 
+Tasks: fixed language filtering bug and remove favorites bug
+
+Start: ~
 End: Sun, 26 Apr 2015 13:03:21 -0400 
 Tasks: all working except for errors on language filtering, and can only retrieve up to 100 results (limited page one AJAX request, as more than 1 causes errors)
 
