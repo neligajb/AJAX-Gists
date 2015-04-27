@@ -34,6 +34,7 @@ function gistHTML(parent_div, gist, icon) {
 
 	link.setAttribute('href', gist.url);
 	link.setAttribute('title', 'gist link');
+  link.setAttribute('target', '_blank');
 	link.innerHTML = gist.url;
 
 	var br = document.createElement('br');

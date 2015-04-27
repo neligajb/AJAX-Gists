@@ -71,7 +71,18 @@ input[type=button] {
 }
 
 .gist-div > button {
-  padding-left: .5em;
+  padding: 0em;
+  height: 1.2em;
+  width: 1.2em;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+#gists > .gist-div > button {
+  background-color: RoyalBlue;
+  color: LightGray;
+  padding-left: .1em;
+  padding-bottom: .4em;
 }
 
 .gist-div > p {
@@ -79,9 +90,11 @@ input[type=button] {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   margin-left: 1em;
   position: relative;
+  width: 80%;
 }
 
 .gist-div > a {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
-  margin-left: 2.3em;
+  margin-left: 3em;
+  width: 80%;
 }
