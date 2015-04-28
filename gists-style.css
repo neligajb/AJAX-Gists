@@ -82,7 +82,7 @@ input[type=button] {
   background-color: RoyalBlue;
   color: LightGray;
   padding-left: .1em;
-  padding-bottom: .4em;
+  margin-bottom: .8em;
 }
 
 .gist-div > p {

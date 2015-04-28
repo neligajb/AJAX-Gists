@@ -92,7 +92,6 @@ function fetchGists() {
   originalGistList.length = 0;
   secondGistList.length = 0;
 
-
   var pages = document.getElementsByName('num-of-pages')[0].value;
   if (pages < 1 || pages > 5) {
     alert('Enter number of pages to display: 1 - 5');
@@ -107,14 +106,12 @@ function fetchGists() {
       throw 'Unable to get request.';
     }
 
-    var display = pages * 30;
-    var firstRequestDone = false;
-
-    var url = 'https://api.github.com/gists/public?page=1&per_page=' + display;
+    var url = 'https://api.github.com/gists/public?page=1&per_page=100';
     req.onreadystatechange = function() {
       if (this.readyState === 4) {
         originalGistList = JSON.parse(this.responseText);
-
+      
+        secondRequest();
       }
     };
     req.open('GET', url);
@@ -122,24 +119,23 @@ function fetchGists() {
   }
 
   function secondRequest() {
-    var req2 = new XMLHttpRequest();
-    if (!req2) {
+    var req = new XMLHttpRequest();
+    if (!req) {
       throw 'Unable to get request.';
     }
     var url = 'https://api.github.com/gists/public?page=2&per_page=100';
-    req2.onreadystatechange = function() {
+    req.onreadystatechange = function() {
       if (this.readyState === 4) {
         secondGistList = JSON.parse(this.responseText);
 
         processReturnData();
       }
     };
-    req2.open('GET', url);
-    req2.send();
+    req.open('GET', url);
+    req.send();
   }
 
   firstRequest();
-  secondRequest();
 }
 
 function getLanguages() {
@@ -160,7 +156,14 @@ function getLanguages() {
   return languages;
 }
 
+function numberOfResults() {
+  var pages = document.getElementsByName('num-of-pages')[0].value;
+  return pages;
+}
+
 function processReturnData() {
+  var display = numberOfResults() * 30;
+
   var secondLen  = secondGistList.length;
   for (var i = 0; i < secondLen; i++) {
     originalGistList.push(secondGistList[i]);
@@ -171,7 +174,7 @@ function processReturnData() {
   var len = originalGistList.length;
   var favLen = favorites.length;
 
-  for (var i = 0; i < len; i++) {
+  for (var i = 0; i < display; i++) {
     var match = false;
     for (var j = 0; j < favLen; j++) {
       if (favorites[j].id === originalGistList[i].id) {
