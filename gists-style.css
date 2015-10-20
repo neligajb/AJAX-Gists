@@ -83,6 +83,7 @@ input[type=button] {
   color: LightGray;
   padding-left: .1em;
   margin-bottom: .8em;
+  line-height: 1px;
 }
 
 .gist-div > p {
